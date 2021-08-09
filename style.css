@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+.user-list-table {
+    max-width: 800px;
+    margin: 20px auto;
+    /* max-height: 200px; */
+    overflow: auto;
+}
+.user-item {
+    margin-bottom: 5px;
+    padding: 5px;
+    width: 100%;
+}
+
+.form-back-btn {
+    color: blue;
+    cursor: pointer;
+}
