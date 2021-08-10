@@ -8,6 +8,19 @@
     /* max-height: 200px; */
     overflow: auto;
 }
+
+.filter-cont {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+.filter-options-cont {
+    display: flex;
+    max-width: 200px;
+}
+
 .user-item {
     margin-bottom: 5px;
     padding: 5px;
@@ -17,4 +30,13 @@
 .form-back-btn {
     color: blue;
     cursor: pointer;
+}
+
+.form-card {
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.cancel-btn {
+    margin-right: 5px
 }

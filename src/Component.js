@@ -6,6 +6,8 @@ class Component {
     }
 
     compareState(oldState, currentState) {
+        // console.log(oldState)
+        // console.log(currentState)
         return JSON.stringify(oldState) === JSON.stringify(currentState)
     }
 

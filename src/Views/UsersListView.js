@@ -13,7 +13,6 @@ class UsersListView extends Component {
 
     createUserListItem(user) {
         const newUserItem = document.createElement('tr')
-        // newUserItem.className = "user-item"
 
         const id = document.createElement('td')
         id.textContent = user.id
@@ -47,7 +46,6 @@ class UsersListView extends Component {
 
         const userEditBtn = document.createElement('button')
         userEditBtn.classList.add('btn', 'btn-primary')
-        userEditBtn.textContent = "Edit"
 
         userEditBtn.addEventListener('click', e => {
             this.props.editUser(user.id)
@@ -58,26 +56,13 @@ class UsersListView extends Component {
         const deleteIcon = document.createElement('i')
         deleteIcon.classList.add('fas', 'fa-trash')
 
+        const editIcon = document.createElement('i')
+        editIcon.classList.add('fas', 'fa-user-edit')
+
+        userEditBtn.appendChild(editIcon)
         userDeleteBtn.appendChild(deleteIcon)
 
-        buttonGroup.append(userDeleteBtn)
-
-        // const userInfoBtn = document.createElement('button')
-        // userInfoBtn.textContent = 'info'
-        // userInfoBtn.dataset.bsToggle = 'collapse'
-        // userInfoBtn.dataset.bsTarget = '#user-info' + user.id
-        // newUserItem.appendChild(userInfoBtn)
-
-
-        const userInfoContainer = document.createElement('div')
-        userInfoContainer.id = 'user-info' + user.id
-        userInfoContainer.classList.add('collapse')
-        newUserItem.appendChild(userInfoContainer)
-
-        const testH1 = document.createElement('h1')
-        testH1.textContent = "this is just a test"
-        userInfoContainer.appendChild(testH1)
-        
+        buttonGroup.append(userDeleteBtn)  
 
         return newUserItem
     }
@@ -97,6 +82,14 @@ class UsersListView extends Component {
         cardBody.classList.add('card-body', 'user-list-table')
         this.parentElement.appendChild(cardBody)
 
+        const title = document.createElement('h4')
+        title.textContent = "All Users"
+        title.classList.add('card-title')
+        cardBody.appendChild(title)
+
+        const filterContainer = document.createElement('div')
+        filterContainer.classList.add('filter-cont')
+        cardBody.appendChild(filterContainer)
 
         const addNewUserBtn = document.createElement('button')
         addNewUserBtn.classList.add('btn', 'btn-success')
@@ -104,7 +97,80 @@ class UsersListView extends Component {
         addNewUserBtn.addEventListener('click', e => {
             this.props.addNewUser()
         })
-        cardBody.appendChild(addNewUserBtn)
+        filterContainer.appendChild(addNewUserBtn)
+
+        const filterOptionsContainer = document.createElement('div')
+        filterOptionsContainer.classList.add('filter-options-cont')
+        filterContainer.appendChild(filterOptionsContainer)
+
+        const filterDirectionBtn = document.createElement('button')
+        filterDirectionBtn.classList.add('btn', 'btn-light')
+        filterOptionsContainer.appendChild(filterDirectionBtn)
+        filterDirectionBtn.addEventListener('click', e => {
+            this.props.toggleSortDir()
+        })
+
+        const filterIcon = document.createElement('i')
+        filterIcon.classList.add('fas', this.props.sortDir ? 'fa-sort-amount-down-alt' : 'fa-sort-amount-up')
+        filterDirectionBtn.appendChild(filterIcon)
+
+        const filterBySelect = document.createElement('select')
+        filterBySelect.classList.add('form-select')
+        filterOptionsContainer.appendChild(filterBySelect)
+
+        filterBySelect.addEventListener('change', e => {
+            this.props.sortUsers(e.target.value)
+        })
+
+        const filterByIDOption = document.createElement('option')
+        filterByIDOption.textContent = 'ID'
+        filterByIDOption.value = 'id'
+        filterBySelect.appendChild(filterByIDOption)
+
+        const filterByNameOption = document.createElement('option')
+        filterByNameOption.textContent = 'Name'
+        filterByNameOption.value = 'name'
+        filterBySelect.appendChild(filterByNameOption)
+
+        const filterByUserNameOption = document.createElement('option')
+        filterByUserNameOption.textContent = 'Username'
+        filterByUserNameOption.value = 'username'
+        filterBySelect.appendChild(filterByUserNameOption)
+
+        const filterByEmailOption = document.createElement('option')
+        filterByEmailOption.textContent = 'Email'
+        filterByEmailOption.value = 'email'
+        filterBySelect.appendChild(filterByEmailOption)
+
+        const filterOptions = [
+            filterByIDOption,
+            filterByNameOption,
+            filterByUserNameOption,
+            filterByEmailOption
+        ]
+
+        for (let i = 0; i < filterOptions.length; i++) {
+            if (this.props.sortBy == filterOptions[i].value) {
+                filterOptions[i].selected = 'selected'
+                break
+            }
+        }
+
+        const nameSearchInput = document.createElement('input')
+        nameSearchInput.value = (this.props.searchString && this.props.searchString !== "") ? this.props.searchString : ""
+        nameSearchInput.placeholder = 'Search by name'
+        nameSearchInput.type = "text"
+        nameSearchInput.classList.add('form-control')
+        cardBody.appendChild(nameSearchInput)
+
+        if (this.props.searchString) {
+            nameSearchInput.focus()
+        }
+
+        nameSearchInput.addEventListener('input', e => {
+            
+            this.props.sortUsers(this.props.sortBy, e.target.value)
+        })
 
         const userListContainer = document.createElement('table')
         userListContainer.classList.add('table', 'table-striped')

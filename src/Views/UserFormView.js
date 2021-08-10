@@ -11,10 +11,12 @@ class UserFormView extends Component {
         }
     }
 
-    createFormField(label, type, value) {
+    createFormField(label, type, value, required = false) {
         const newFormFieldContainer = document.createElement('div')
+        newFormFieldContainer.classList.add('mb-3')
 
         const newFormFieldLabel = document.createElement('label')
+        newFormFieldLabel.classList.add('form-label')
         newFormFieldLabel.textContent = label
         newFormFieldContainer.appendChild(newFormFieldLabel)
 
@@ -22,6 +24,8 @@ class UserFormView extends Component {
         newFormFieldContainer.appendChild(br)
 
         const newFormFieldInput = document.createElement('input')
+        newFormFieldInput.setAttribute('required', required)
+        newFormFieldInput.classList.add('form-control')
         newFormFieldInput.type = type
         if (value) {
             newFormFieldInput.value = value
@@ -41,31 +45,48 @@ class UserFormView extends Component {
         this.parentElement = document.createElement('div')
         document.body.appendChild(this.parentElement)
 
-        const backBtn = document.createElement('a')
-        backBtn.textContent = '<< Back'
-        backBtn.addEventListener('click', e => {
-            this.props.back()
-        })
-        backBtn.classList.add('form-back-btn')
+        const formCard = document.createElement('div')
+        formCard.classList.add('card', 'form-card')
+        this.parentElement.appendChild(formCard)
 
-        this.parentElement.appendChild(backBtn)
+        const formCardBody = document.createElement('div')
+        formCardBody.classList.add('card-body')
+        formCard.appendChild(formCardBody)
+
+        const formCardTitle = document.createElement('h5')
+        formCardTitle.textContent = this.props.user ? `Edit ${this.props.user.name}` : "Create a new user"
+        formCardTitle.classList.add('card-title')
+        formCardBody.appendChild(formCardTitle)
 
         const form = document.createElement('form')
 
-        const nameField = this.createFormField('Name:', 'text', this.props.user ? this.props.user.name : "")
+        const nameField = this.createFormField('Name:', 'text', this.props.user ? this.props.user.name : "", true)
         form.appendChild(nameField.container)
 
-        const usernameField = this.createFormField('Username:', 'text', this.props.user ? this.props.user.username : "")
+        const usernameField = this.createFormField('Username:', 'text', this.props.user ? this.props.user.username : "", true)
         form.appendChild(usernameField.container)
 
         const emailField = this.createFormField('Email:', 'email', this.props.user ? this.props.user.email : "")
         form.appendChild(emailField.container)
 
+        const cancelBtn = document.createElement('button')
+        cancelBtn.type = 'button'
+        cancelBtn.classList.add('btn', 'btn-danger', 'cancel-btn')
+        cancelBtn.textContent = "Cancel"
+
+        cancelBtn.addEventListener('click', e => {
+            this.props.back()
+        })
+
+        form.appendChild(cancelBtn)
+
         const submitBtn = document.createElement('button')
+        submitBtn.type = 'submit'
+        submitBtn.classList.add('btn', 'btn-primary')
         submitBtn.textContent = this.props.user ? "Save changes" : "Add user"
         form.appendChild(submitBtn)
 
-        submitBtn.addEventListener('click', e => {
+        form.addEventListener('submit', e => {
             e.preventDefault()
             if (this.props.user) {
                 const newUserData = {
@@ -85,7 +106,7 @@ class UserFormView extends Component {
             }
         })
 
-        this.parentElement.appendChild(form)
+        formCardBody.appendChild(form)
 
     }
 
