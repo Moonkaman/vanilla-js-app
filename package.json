@@ -2,7 +2,7 @@
   "name": "js-app",
   "version": "1.0.0",
   "description": "",
-  "main": "old-app.js",
+  "main": "./src/app.js",
   "scripts": {
     "build": "webpack",
     "start": "webpack serve --open"
