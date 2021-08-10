@@ -1,3 +1,7 @@
+import Component from "./Component"
+import UserFormView from "./Views/UserFormView"
+import UsersListView from "./Views/UsersListView"
+
 class ViewController extends Component {
     constructor(name, initialState) {
         super(name, initialState)
@@ -119,3 +123,5 @@ class ViewController extends Component {
         }
     }
 }
+
+export default ViewController

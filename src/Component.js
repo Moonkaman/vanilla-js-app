@@ -41,3 +41,5 @@ class Component {
         this.stateUpdated(this.oldState)
     }
 }
+
+export default Component

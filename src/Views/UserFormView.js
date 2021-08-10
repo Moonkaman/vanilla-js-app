@@ -1,3 +1,5 @@
+import Component from '../Component'
+
 class UserFormView extends Component {
     constructor(name, initialState) {
         super(name, initialState)
@@ -93,3 +95,5 @@ class UserFormView extends Component {
         }
     }
 }
+
+export default UserFormView;

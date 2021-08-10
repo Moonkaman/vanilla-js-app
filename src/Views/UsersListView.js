@@ -1,3 +1,5 @@
+import Component from "../Component"
+
 class UsersListView extends Component {
     constructor(name, initialState) {
         super(name, initialState)
@@ -150,3 +152,5 @@ class UsersListView extends Component {
         }
     }
 }
+
+export default UsersListView
